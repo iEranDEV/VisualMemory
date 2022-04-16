@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { nextTick } from 'vue';
+
 export default {
 	name: "GameBoard",
 	data() {
@@ -34,7 +36,7 @@ export default {
 	},
 	methods: {
 		// Generowanie pól (zmienna tiles)
-		generateTiles() {
+		async generateTiles() {
 			this.state = 'generate';
 			let value = this.points + 3;
 			let size = parseInt(this.tileAmount);
@@ -44,10 +46,17 @@ export default {
 				let r = Math.floor(Math.random() * ((size * size)-1)) + 1; 
 				if(this.tiles.indexOf(r) === -1) this.tiles.push(r);
 			}
+			await nextTick()
 			// TODO: Animacja pól przy generowaniu poziomu
-			/*setTimeout(() => {
+			for(let val of document.querySelectorAll(".gameTile")) {
+				val.classList.add("animation")
+			}
+			setTimeout(() => {
+				for(let val of document.querySelectorAll(".gameTile")) {
+					val.classList.remove("animation")
+				}
 				this.changeState();
-			},2000);*/
+			}, 2000)
 		},
 		// Sprawdzanie, czy dane pole zostało zaznaczone przez gracza
 		isClicked(index) {
@@ -76,8 +85,12 @@ export default {
 					// Gracz wprowadził poprawne wartości
 					this.points++;
 					this.generateTiles();
-					this.$emit('win', this.points);
+					this.$emit('win');
+				} else {
+					this.$router.push('/lose');
 				}
+			} else {
+				this.$router.push('/lose');
 			}
 		},
 		// Sprawdzanie, czy pole zostało wygenerowane
@@ -93,6 +106,16 @@ export default {
 </script>
 
 <style scoped>
+
+@keyframes animationTile {
+	20% {
+		background-color: white;
+	}
+	75% {
+		background-color: white;
+	}
+}
+
 #submit {
 	font-size: 2rem;
 	background-color: #ffe366;
@@ -140,8 +163,9 @@ export default {
 	background-color: #2462A0;
 }
 
-.gameTile {
-	background-color: red;
+.animation {
+	animation-name: animationTile;
+	animation-duration: 2s;
 }
 
 .clicked {

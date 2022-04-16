@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import MainPage from "./components/MainPage.vue"
 import GamePage from "./components/GamePage.vue"
+import LosePage from "./components/LosePage.vue"
 
 const routes = [
     {
@@ -12,7 +13,12 @@ const routes = [
         path: "/game",
         name: "Game",
         component: GamePage
-    }
+    },
+	{
+		path: "/lose",
+		name: "Lose",
+		component: LosePage
+	}
 ]
 
 const router = createRouter({
