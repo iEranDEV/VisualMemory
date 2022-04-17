@@ -46,7 +46,7 @@ export default {
 				let r = Math.floor(Math.random() * ((size * size)-1)) + 1; 
 				if(this.tiles.indexOf(r) === -1) this.tiles.push(r);
 			}
-			await nextTick()
+			await nextTick();
 			// TODO: Animacja pól przy generowaniu poziomu
 			for(let val of document.querySelectorAll(".gameTile")) {
 				val.classList.add("animation")
